@@ -7,6 +7,7 @@ const ImageUploader = () => {
   const [loading, setLoading] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
 
+  const api = import.meta.env.VITE_API_URL
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => setSelectedImage(acceptedFiles[0]),
@@ -20,8 +21,8 @@ const ImageUploader = () => {
     formData.append("image", selectedImage);
 
     try {
-      const res = await axios.post("/api/upload", formData);
-      // Assuming the backend returns { urls: [url1, url2, ...] }
+      const res = await axios.post(`${api}/upload`, formData);
+      
       setImageUrls(res.data.urls);
     } catch (error) {
       console.error(error);
